@@ -43,6 +43,17 @@ public class PlayerController : MonoBehaviour
         animatorInput = Vector3.Lerp(animatorInput, input, ANIMATOR_SMOOTHING);
         animator.SetFloat("HorizontalSpeed", animatorInput.x);
         animator.SetFloat("VerticalSpeed", animatorInput.z);
+
+        if (Input.GetButton("Run") && IsGrounded())
+        {
+            animator.SetBool("Sprint", true);
+            input = input * 2;
+        }
+        else
+        {
+            animator.SetBool("Sprint", false);
+        }
+
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             Debug.Log("Jump jump. Kriss kross will make you jump jump");
@@ -53,6 +64,12 @@ public class PlayerController : MonoBehaviour
         {
             input.y = GetComponent<Rigidbody>().velocity.y; //our jump velocity if we are not triggering a new jump is the current rigid body velocity based on its interaction with gravity
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && IsGrounded())
+        {
+            animator.SetTrigger("Rolling");
+        }
+
         GetComponent<Rigidbody>().velocity = transform.TransformVector(input);
     }
     private bool IsGrounded() //we want to figure out if our character is on the ground or not
