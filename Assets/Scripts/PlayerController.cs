@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Unit
 {
     private Camera playerCam; //this is the camera in our game
     private Transform camContainer; //this is the container which we are going to use for rotating the camera
@@ -19,9 +19,7 @@ public class PlayerController : MonoBehaviour
 
     //animation changes
     private const float ANIMATOR_SMOOTHING = 0.4f;
-    private const float RAYCAST_LENGTH = 0.3f;
     private Vector3 animatorInput;
-    private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            Debug.Log("Jump jump. Kriss kross will make you jump jump");
+            //Debug.Log("Jump jump. Kriss kross will make you jump jump");
             input.y = jumpHeight;
             animator.SetTrigger("Jumping");
         }
@@ -72,11 +70,6 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<Rigidbody>().velocity = transform.TransformVector(input);
     }
-    private bool IsGrounded() //we want to figure out if our character is on the ground or not
-    {
-        Vector3 origin = transform.position;//this is where our character begins
-        origin.y += RAYCAST_LENGTH * 0.5f;
-        LayerMask mask = LayerMask.GetMask("Terrain");
-        return Physics.Raycast(origin, Vector3.down, RAYCAST_LENGTH, mask);
-    }
+
+
 }
